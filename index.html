@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python - البرمجة كائنية التوجه OOP 🎮</title>
+<script src="https://skulpt.org/static/skulpt.min.js"></script>
+<script src="https://skulpt.org/static/skulpt-stdlib.js"></script>
+<style>
+:root {
+  --primary: #6366f1;
+  --secondary: #8b5cf6;
+  --accent: #ec4899;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+  --dark: #1e293b;
+  --light: #f8fafc;
+  --gray: #64748b;
+  --code-bg: #1e1e1e;
+  --code-text: #d4d4d4;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%);
+  color: var(--dark);
+  line-height: 1.8;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 40px;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.header .subtitle {
+  font-size: 1.3rem;
+  opacity: 0.95;
+  margin-bottom: 10px;
+}
+
+.header .quote {
+  font-style: italic;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.big-emoji {
+  font-size: 5rem;
+  margin: 20px 0;
+  display: block;
+}
+
+.content { padding: 40px; }
+
+.section {
+  margin-bottom: 50px;
+  padding: 30px;
+  background: var(--light);
+  border-radius: 15px;
+  border-right: 5px solid var(--primary);
+}
+
+.section h2 {
+  color: var(--primary);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--primary);
+}
+
+.section h3 {
+  color: var(--secondary);
+  font-size: 1.4rem;
+  margin: 25px 0 15px;
+}
+
+.section h4 {
+  color: var(--dark);
+  font-size: 1.2rem;
+  margin: 20px 0 10px;
+}
+
+.section p {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  color: #334155;
+}
+
+.section ul, .section ol {
+  padding-right: 25px;
+  margin: 15px 0;
+}
+
+.section li {
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+}
+
+.review-box {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  padding: 25px;
+  border-radius: 15px;
+  margin: 20px 0;
+  border: 2px solid var(--warning);
+}
+
+.review-box h3 { color: #92400e; }
+
+.review-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.review-box li {
+  padding: 8px 0;
+  border-bottom: 1px dashed #d97706;
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.compare-table th {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.compare-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.compare-table tr:nth-child(even) { background: #f8fafc; }
+.compare-table tr:hover { background: #e0e7ff; }
+
+.code-block {
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 15px 0;
+  direction: ltr;
+  text-align: left;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.95rem;
+  overflow-x: auto;
+  border-right: 4px solid var(--accent);
+  line-height: 1.7;
+  white-space: pre;
+}
+
+.kw { color: #c586c0; font-weight: bold; }
+.fn { color: #dcdcaa; }
+.str { color: #ce9178; }
+.num { color: #b5cea8; }
+.cmt { color: #6a9955; font-style: italic; }
+.var { color: #9cdcfe; }
+
+.callout {
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  border-right: 5px solid;
+  font-size: 1.05rem;
+}
+
+.callout-info { background: #dbeafe; border-color: var(--info); }
+.callout-tip { background: #d1fae5; border-color: var(--success); }
+.callout-warn { background: #fee2e2; border-color: var(--danger); }
+.callout-star { background: #fef3c7; border-color: var(--warning); }
+
+.callout h4 { margin-top: 0; margin-bottom: 10px; }
+
+.level-badge {
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.level-1 { background: var(--success); }
+.level-2 { background: var(--warning); }
+.level-3 { background: var(--danger); }
+.level-4 { background: var(--accent); }
+
+.ide {
+  background: white;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.ide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px dashed #e2e8f0;
+}
+
+.ide-title {
+  font-weight: bold;
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+
+.ide-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.ide-editor {
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 15px;
+  border-radius: 8px;
+  font-family: 'Consolas', monospace;
+  font-size: 0.95rem;
+  direction: ltr;
+  text-align: left;
+  min-height: 200px;
+  white-space: pre-wrap;
+  line-height: 1.7;
+  outline: none;
+}
+
+.ide-output {
+  background: #000;
+  color: #0f0;
+  padding: 15px;
+  border-radius: 8px;
+  font-family: 'Consolas', monospace;
+  font-size: 0.95rem;
+  direction: ltr;
+  text-align: left;
+  min-height: 200px;
+  overflow-y: auto;
+  line-height: 1.7;
+}
+
+.btn {
+  background: linear-gradient(135deg, var(--success), #059669);
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: 0.3s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+.simulator {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 3px solid var(--warning);
+  border-radius: 15px;
+  padding: 25px;
+  margin: 25px 0;
+}
+
+.simulator h3 { color: #92400e; margin-bottom: 20px; }
+
+.simulator-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.control-group {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.control-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--dark);
+}
+
+.control-group input, .control-group select {
+  width: 100%;
+  padding: 8px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.quiz-container {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  margin: 20px 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.quiz-question {
+  background: var(--light);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border-right: 4px solid var(--primary);
+}
+
+.quiz-question h4 {
+  color: var(--primary);
+  margin-bottom: 15px;
+}
+
+.quiz-options { display: grid; gap: 10px; }
+
+.quiz-option {
+  background: white;
+  border: 2px solid #e2e8f0;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 1rem;
+}
+
+.quiz-option:hover {
+  border-color: var(--primary);
+  background: #e0e7ff;
+  transform: translateX(-5px);
+}
+
+.quiz-option.correct {
+  background: #d1fae5;
+  border-color: var(--success);
+  font-weight: bold;
+}
+
+.quiz-option.wrong {
+  background: #fee2e2;
+  border-color: var(--danger);
+}
+
+.quiz-score {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary);
+  padding: 20px;
+  background: linear-gradient(135deg, #e0e7ff, #ddd6fe);
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.tasks-container {
+  background: linear-gradient(135deg, #ddd6fe, #e0e7ff);
+  padding: 25px;
+  border-radius: 15px;
+  margin: 20px 0;
+}
+
+.task {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  border-right: 5px solid;
+}
+
+.task-easy { border-color: var(--success); }
+.task-medium { border-color: var(--warning); }
+.task-hard { border-color: var(--danger); }
+.task-creative { border-color: var(--accent); }
+
+.task h4 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.task-points {
+  background: var(--primary);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.hint {
+  background: #fef3c7;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  border-right: 3px solid var(--warning);
+}
+
+.summary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  margin: 30px 0;
+}
+
+.summary h2 {
+  color: white;
+  border-bottom: 3px solid rgba(255,255,255,0.3);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.summary-item {
+  background: rgba(255,255,255,0.15);
+  padding: 15px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.summary-item h4 {
+  color: #fde68a;
+  margin-bottom: 8px;
+}
+
+.next-lecture {
+  background: linear-gradient(135deg, #ec4899, #f59e0b);
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  margin: 30px 0;
+}
+
+.next-lecture h2 { color: white; border: none; }
+.next-lecture .big-emoji { font-size: 4rem; }
+
+.footer-quote {
+  text-align: center;
+  padding: 30px;
+  background: linear-gradient(135deg, #f8fafc, #e0e7ff);
+  border-radius: 15px;
+  margin: 30px 0;
+  font-size: 1.2rem;
+  color: var(--dark);
+}
+
+.footer-quote p { margin: 10px 0; }
+
+.project-block {
+  background: linear-gradient(135deg, #ddd6fe, #fbcfe8);
+  border: 3px solid var(--accent);
+  border-radius: 15px;
+  padding: 25px;
+  margin: 25px 0;
+}
+
+.project-block h3 { color: var(--accent); margin-bottom: 15px; }
+
+.class-visual {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.class-box {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  padding: 20px;
+  border-radius: 15px;
+  border: 3px solid var(--warning);
+  text-align: center;
+  min-width: 150px;
+}
+
+.class-box h4 {
+  color: var(--primary);
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.class-box .emoji {
+  font-size: 3rem;
+  margin: 10px 0;
+}
+
+.class-box .attr {
+  background: white;
+  padding: 5px 10px;
+  border-radius: 8px;
+  margin: 5px 0;
+  font-size: 0.9rem;
+  border: 1px solid var(--warning);
+}
+
+@media (max-width: 768px) {
+  .header h1 { font-size: 2rem; }
+  .section { padding: 20px; }
+  .ide-content { grid-template-columns: 1fr; }
+  .compare-table { font-size: 0.9rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+  <span class="big-emoji">🎮</span>
+  <h1>Python - البرمجة كائنية التوجه OOP</h1>
+  <div class="subtitle">اصنع عوالمك الخاصة في البرمجة! 🏭</div>
+  <div class="quote">"تعلّم كيف تبني برامجك مثل المصانع الذكية!"</div>
+</div>
+
+<div class="content">
+
+<!-- مراجعة -->
+<div class="section">
+  <h2>🏆 مراجعة سريعة - ما تعلمناه سابقاً</h2>
+  <p>تذكر ما تعلمناه في المحاضرات السابقة:</p>
+
+  <div class="review-box">
+    <h3>✅ المحاضرات السابقة:</h3>
+    <ul>
+      <li>✅ المتغيرات والدوال <code>def</code></li>
+      <li>✅ القوائم <code>Lists</code> والقواميس <code>Dictionaries</code></li>
+      <li>✅ الحلقات <code>for</code> و <code>while</code></li>
+      <li>✅ الشروط <code>if/else</code></li>
+      <li>✅ الملفات <code>Files</code></li>
+    </ul>
+  </div>
+
+  <h3>🎯 اليوم:</h3>
+  <ul>
+    <li> ما هي البرمجة كائنية التوجه (OOP)؟</li>
+    <li>🏭 فهم الـ Class والـ Object</li>
+    <li>🔧 تعلم <code>__init__</code> و <code>self</code></li>
+    <li>⚙️ بناء أنظمة شخصية لعبة كاملة!</li>
+  </ul>
+
+  <div class="callout callout-warn">
+    <h4> سؤال سريع للمراجعة:</h4>
+    <p>لو عندك 100 طالب، وتريد تخزين بيانات كل واحد (اسم، عمر، درجة)، كيف ستفعل ذلك بدون OOP؟</p>
+    <ul style="list-style: none; padding: 0;">
+      <li>◻️ 100 متغير منفصل 😱</li>
+      <li>◻️ List من Dictionaries (جيد لكن معقد)</li>
+      <li>◼️ Class واحد ينشئ كل الطلاب بسهولة! ✅</li>
+    </ul>
+  </div>
+</div>
+
+<!-- التشبيه الذهني -->
+<div class="section">
+  <h2>🧠 التشبيه الذهني - المصنع والشخصيات! </h2>
+  
+  <p>تخيل أن لديك <strong>مصنعاً</strong> لصنع شخصيات لعبة 🎮</p>
+  <p>المصنع (Class) يحتوي على <strong>التصميم</strong>: كل شخصية لها اسم، صحة، مستوى، قوة!</p>
+  <p>من هذا المصنع، يمكنك صنع <strong>آلاف الشخصيات</strong> المختلفة!</p>
+
+  <div class="class-visual">
+    <div class="class-box">
+      <h4>🏭 Class (المصنع)</h4>
+      <div class="emoji">📐</div>
+      <div class="attr">name</div>
+      <div class="attr">health</div>
+      <div class="attr">level</div>
+      <div class="attr">attack()</div>
+    </div>
+    <div class="class-box">
+      <h4>⚔️ Object 1</h4>
+      <div class="emoji">🧙</div>
+      <div class="attr">Ahmed: 100 HP</div>
+      <div class="attr">Level 5</div>
+    </div>
+    <div class="class-box">
+      <h4>🛡️ Object 2</h4>
+      <div class="emoji">🧝</div>
+      <div class="attr">Sara: 80 HP</div>
+      <div class="attr">Level 3</div>
+    </div>
+  </div>
+
+  <p>بدل ما تكتب كود لكل شخصية، تصنع <strong>Class واحد</strong> وتنشئ منه ما تشاء! 🎯</p>
+
+  <div class="callout callout-info">
+    <h4>🎮 أمثلة من الألعاب:</h4>
+    <ul>
+      <li>‍♂️ كل ساحر في اللعبة = Object من Class "Wizard"</li>
+      <li>🚗 كل سيارة في GTA = Object من Class "Car"</li>
+      <li>👾 كل عدو = Object من Class "Enemy"</li>
+    </ul>
+  </div>
+</div>
+
+<!-- الأهداف -->
+<div class="section">
+  <h2>🎯 أهداف اليوم</h2>
+  <ul>
+    <li>🧠 فهم الفرق بين Class و Object</li>
+    <li>🏗️ تعلم إنشاء Class بسيط</li>
+    <li>🔧 فهم <code>__init__</code> (المنشئ)</li>
+    <li> فهم <code>self</code> (الإشارة للكائن)</li>
+    <li>⚙️ تعلم Methods (الدوال داخل Class)</li>
+    <li>🎮 بناء نظام شخصيات لعبة RPG!</li>
+  </ul>
+</div>
+
+<!-- المستوى الأول -->
+<div class="section">
+  <h2><span class="level-badge level-1">المستوى الأول</span> 🟢 Class و Object</h2>
+
+  <div class="callout callout-info">
+    <h4>📐 المفاهيم الأساسية:</h4>
+    <ul>
+      <li><strong>Class:</strong> القالب/التصميم (مثل مخطط البناء)</li>
+      <li><strong>Object:</strong> نسخة من Class (مثل المبنى الفعلي)</li>
+      <li><strong>Attributes:</strong> بيانات الكائن (مثل: الاسم، العمر)</li>
+      <li><strong>Methods:</strong> أفعال الكائن (مثل: يمشي، يهاجم)</li>
+    </ul>
+  </div>
+
+  <h3>🐍 مثال 1: Class بسيط</h3>
+  <div class="code-block"><span class="kw">class</span> <span class="var">Dog</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, name, age):
+        <span class="var">self</span>.name = name
+        <span class="var">self</span>.age = age
+    
+    <span class="kw">def</span> <span class="fn">bark</span>(<span class="var">self</span>):
+        <span class="fn">print</span>(<span class="str">f"{self.name} يقول: Woof! 🐕"</span>)
+
+<span class="cmt"># إنشاء Object</span>
+dog1 = Dog(<span class="str">"Rex"</span>, <span class="num">3</span>)
+dog1.bark()  <span class="cmt"># Rex يقول: Woof! 🐕</span></div>
+
+  <div class="callout callout-tip">
+    <h4>💡 ملاحظات مهمة:</h4>
+    <ul>
+      <li>✅ نستخدم <code>class</code> لتعريف Class</li>
+      <li>✅ اسم Class يبدأ بحرف كبير (PascalCase)</li>
+      <li>✅ <code>__init__</code> تُنفذ تلقائياً عند إنشاء Object</li>
+      <li>✅ <code>self</code> يشير للكائن نفسه</li>
+    </ul>
+  </div>
+</div>
+
+<!-- المستوى الثاني -->
+<div class="section">
+  <h2><span class="level-badge level-2">المستوى الثاني</span> 🟡 __init__ و self</h2>
+
+  <h3> دالة __init__ (المنشئ)</h3>
+  <p>تُنفذ <strong>تلقائياً</strong> عند إنشاء Object جديد. تستخدم لتهيئة البيانات!</p>
+
+  <div class="code-block"><span class="kw">class</span> <span class="var">Student</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, name, age, grade):
+        <span class="var">self</span>.name = name      <span class="cmt"># Attribute</span>
+        <span class="var">self</span>.age = age
+        <span class="var">self</span>.grade = grade
+        <span class="fn">print</span>(<span class="str">f" تم إنشاء طالب: {name}"</span>)
+
+<span class="cmt"># إنشاء Objects</span>
+s1 = Student(<span class="str">"Ahmed"</span>, <span class="num">15</span>, <span class="str">"A"</span>)
+s2 = Student(<span class="str">"Sara"</span>, <span class="num">14</span>, <span class="str">"B"</span>)</div>
+
+  <h3>🎯 ما هو self؟</h3>
+  <p><code>self</code> يشير إلى <strong>الكائن الحالي</strong>. بدونه، Python لا تعرف أي Object نتحدث عنه!</p>
+
+  <div class="ide">
+    <div class="ide-header">
+      <span class="ide-title">🎮 جربها بنفسك</span>
+    </div>
+    <div class="ide-content">
+      <div class="ide-editor" contenteditable="true" id="editor1">class Car:
+    def __init__(self, brand, color, year):
+        self.brand = brand
+        self.color = color
+        self.year = year
+        print(f"🚗 تم إنشاء سيارة: {brand}")
+    
+    def honk(self):
+        print(f"{self.brand} تقول: Beep! ")
+
+# إنشاء سيارات
+car1 = Car("BMW", "Black", 2020)
+car2 = Car("Toyota", "White", 2019)
+
+car1.honk()
+car2.honk()</div>
+      <div class="ide-output" id="output1">اضغط Run ▶</div>
+    </div>
+    <button class="btn" onclick="runCode('editor1', 'output1')">▶ Run Code</button>
+  </div>
+</div>
+
+<!-- المستوى الثالث -->
+<div class="section">
+  <h2><span class="level-badge level-3">المستوى الثالث</span> 🔴 Methods و Attributes</h2>
+
+  <h3>⚙️ Methods (دوال الكائن)</h3>
+  <p>هي دوال <strong>داخل Class</strong> تمثل أفعال الكائن!</p>
+
+  <div class="code-block"><span class="kw">class</span> <span class="var">Player</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, name, health, level):
+        <span class="var">self</span>.name = name
+        <span class="var">self</span>.health = health
+        <span class="var">self</span>.level = level
+    
+    <span class="kw">def</span> <span class="fn">attack</span>(<span class="var">self</span>, enemy):
+        <span class="fn">print</span>(<span class="str">f"⚔️ {self.name} يهاجم {enemy.name}!"</span>)
+        enemy.health -= <span class="num">10</span>
+    
+    <span class="kw">def</span> <span class="fn">heal</span>(<span class="var">self</span>):
+        <span class="var">self</span>.health += <span class="num">20</span>
+        <span class="fn">print</span>(<span class="str">f"💊 {self.name} استعاد صحة! HP: {self.health}"</span>)
+    
+    <span class="kw">def</span> <span class="fn">status</span>(<span class="var">self</span>):
+        <span class="fn">print</span>(<span class="str">f" {self.name} | HP: {self.health} | Level: {self.level}"</span>)</div>
+
+  <div class="ide">
+    <div class="ide-header">
+      <span class="ide-title">🎮 جربها بنفسك - معركة!</span>
+    </div>
+    <div class="ide-content">
+      <div class="ide-editor" contenteditable="true" id="editor2">class Player:
+    def __init__(self, name, health, level):
+        self.name = name
+        self.health = health
+        self.level = level
+    
+    def attack(self, enemy):
+        print(f"⚔️ {self.name} يهاجم {enemy.name}!")
+        enemy.health -= 10
+    
+    def status(self):
+        print(f"🎮 {self.name} | HP: {self.health}")
+
+# إنشاء لاعبين
+hero = Player("Ahmed", 100, 5)
+villain = Player("Dragon", 80, 7)
+
+hero.status()
+villain.status()
+
+print("\n--- المعركة ---")
+hero.attack(villain)
+villain.status()</div>
+      <div class="ide-output" id="output2">اضغط Run ▶</div>
+    </div>
+    <button class="btn" onclick="runCode('editor2', 'output2')">▶ Run Code</button>
+  </div>
+</div>
+
+<!-- المستوى الرابع -->
+<div class="section">
+  <h2><span class="level-badge level-4">المستوى الرابع</span> 🟣 Class متقدم</h2>
+
+  <h3>🎯 Class Attributes (بيانات مشتركة)</h3>
+  <div class="code-block"><span class="kw">class</span> <span class="var">Game</span>:
+    players_count = <span class="num">0</span>  <span class="cmt"># Class Attribute (مشترك)</span>
+    
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, name):
+        <span class="var">self</span>.name = name  <span class="cmt"># Instance Attribute (خاص)</span>
+        Game.players_count += <span class="num">1</span>
+
+g1 = Game(<span class="str">"Minecraft"</span>)
+g2 = Game(<span class="str">"Fortnite"</span>)
+<span class="fn">print</span>(Game.players_count)  <span class="cmt"># 2</span></div>
+
+  <h3>🔗 ربط Classes ببعض (Composition)</h3>
+  <div class="code-block"><span class="kw">class</span> <span class="var">Weapon</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, name, damage):
+        <span class="var">self</span>.name = name
+        <span class="var">self</span>.damage = damage
+
+<span class="kw">class</span> <span class="var">Player</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, name):
+        <span class="var">self</span>.name = name
+        <span class="var">self</span>.weapon = <span class="kw">None</span>
+    
+    <span class="kw">def</span> <span class="fn">equip</span>(<span class="var">self</span>, weapon):
+        <span class="var">self</span>.weapon = weapon
+        <span class="fn">print</span>(<span class="str">f"{self.name} equipped {weapon.name}!"</span>)</div>
+
+  <div class="ide">
+    <div class="ide-header">
+      <span class="ide-title">🎮 جربها بنفسك - نظام أسلحة</span>
+    </div>
+    <div class="ide-content">
+      <div class="ide-editor" contenteditable="true" id="editor3">class Weapon:
+    def __init__(self, name, damage):
+        self.name = name
+        self.damage = damage
+
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self.weapon = None
+    
+    def equip(self, weapon):
+        self.weapon = weapon
+        print(f"️ {self.name} equipped {weapon.name}!")
+    
+    def attack(self):
+        if self.weapon:
+            print(f"💥 {self.name} attacks with {self.weapon.name} for {self.weapon.damage} damage!")
+        else:
+            print(f"😢 {self.name} has no weapon!")
+
+# إنشاء أسلحة
+sword = Weapon("Magic Sword", 50)
+bow = Weapon("Elven Bow", 35)
+
+# إنشاء لاعب
+hero = Player("Ahmed")
+hero.attack()  # لا سلاح!
+
+hero.equip(sword)
+hero.attack()  # هجوم بالسيف!</div>
+      <div class="ide-output" id="output3">اضغط Run ▶</div>
+    </div>
+    <button class="btn btn-primary" onclick="runCode('editor3', 'output3')">▶ Run Code</button>
+  </div>
+</div>
+
+<!-- المحاكي -->
+<div class="simulator">
+  <h3>🎮 محاكي OOP التفاعلي - صانع الشخصيات</h3>
+  <p>جرب بنفسك! أنشئ شخصية وشاهد كيف تعمل:</p>
+
+  <div class="simulator-controls">
+    <div class="control-group">
+      <label>اسم الشخصية:</label>
+      <input type="text" id="sim-name" value="Ahmed">
+    </div>
+    <div class="control-group">
+      <label>الصحة (HP):</label>
+      <input type="number" id="sim-hp" value="100">
+    </div>
+    <div class="control-group">
+      <label>المستوى:</label>
+      <input type="number" id="sim-level" value="5">
+    </div>
+    <div class="control-group">
+      <label>الفعل:</label>
+      <select id="sim-action">
+        <option value="status">📊 عرض الحالة</option>
+        <option value="attack">️ هجوم</option>
+        <option value="heal">💊 علاج</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" onclick="runSimulator()">▶️ شغّل المحاكاة</button>
+
+  <div class="code-block" style="margin-top: 15px;">
+<span class="kw">class</span> <span class="var">Player</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, name, hp, level):
+        <span class="var">self</span>.name = <span class="str">"<span id="code-name">Ahmed</span>"</span>
+        <span class="var">self</span>.hp = <span class="num"><span id="code-hp">100</span></span>
+        <span class="var">self</span>.level = <span class="num"><span id="code-level">5</span></span>
+    
+    <span class="kw">def</span> <span id="code-method">status</span>(<span class="var">self</span>):
+        <span class="fn">print</span>(<span class="str">f" {self.name} | HP: {self.hp}"</span>)
+  </div>
+
+  <div style="margin-top: 15px;">
+    <strong>📤 النتيجة:</strong>
+    <div class="ide-output" id="sim-output" style="margin-top: 10px; min-height: 120px;">
+اضغط "شغّل المحاكاة" لرؤية النتيجة...
+    </div>
+  </div>
+</div>
+
+<!-- المشروع -->
+<div class="section">
+  <h2>🎨 المشروع: نظام شخصيات لعبة RPG </h2>
+  <p>هنعمل نظام كامل لشخصيات لعبة مع معارك وعلاج!</p>
+
+  <div class="project-block">
+    <h3>️ نظام RPG الكامل</h3>
+    <div class="ide" style="height: 550px;">
+      <div class="ide-header">
+        <span class="ide-title">🎮 جرب المشروع</span>
+      </div>
+      <div class="ide-content">
+        <div class="ide-editor" contenteditable="true" id="project1"># ═══════════════════════════════════════
+# 🎮 نظام شخصيات لعبة RPG
+# ═══════════════════════════════════════
+
+class Character:
+    def __init__(self, name, health, attack_power, level):
+        self.name = name
+        self.health = health
+        self.max_health = health
+        self.attack_power = attack_power
+        self.level = level
+        self.xp = 0
+    
+    def attack(self, enemy):
+        damage = self.attack_power
+        enemy.health -= damage
+        print(f"⚔️ {self.name} يهاجم {enemy.name} بـ {damage} ضرر!")
+        print(f"   {enemy.name} HP: {enemy.health}/{enemy.max_health}")
+        
+        if enemy.health <= 0:
+            print(f"💀 {enemy.name} هُزم!")
+            self.xp += 50
+            print(f"✨ {self.name} gained 50 XP!")
+    
+    def heal(self):
+        heal_amount = 30
+        self.health += heal_amount
+        if self.health > self.max_health:
+            self.health = self.max_health
+        print(f"💊 {self.name} استعاد {heal_amount} HP!")
+        print(f"   {self.name} HP: {self.health}/{self.max_health}")
+    
+    def status(self):
+        print(f"\n🎮 === {self.name} ===")
+        print(f"   ❤️  HP: {self.health}/{self.max_health}")
+        print(f"   ⚔️  Attack: {self.attack_power}")
+        print(f"   🎯 Level: {self.level}")
+        print(f"   ✨ XP: {self.xp}")
+        print(f"{'='*30}")
+
+# إنشاء شخصيات
+hero = Character("Ahmed", 100, 25, 5)
+villain = Character("Dragon", 80, 30, 7)
+
+print("🎮 مرحباً بك في لعبة RPG!")
+print("=" * 40)
+
+# عرض الحالة
+hero.status()
+villain.status()
+
+# المعركة
+print("\n⚔️ --- المعركة تبدأ! ---")
+hero.attack(villain)
+villain.attack(hero)
+
+# العلاج
+print("\n --- العلاج ---")
+hero.heal()
+
+# الحالة النهائية
+print("\n📊 --- الحالة النهائية ---")
+hero.status()
+villain.status()</div>
+        <div class="ide-output" id="projectOut1">اضغط Run ▶</div>
+      </div>
+      <button class="btn btn-primary" onclick="runCode('project1', 'projectOut1')">▶ Run Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- الاختبار -->
+<div class="section">
+  <h2> اختبر معلوماتك - 10 أسئلة</h2>
+  <p>أجب عن الأسئلة التالية واختبر فهمك!</p>
+
+  <div class="quiz-container">
+    <div class="quiz-score" id="quizScore">النتيجة: 0 / 10</div>
+
+    <div class="quiz-question">
+      <h4>س1: ما الكلمة المستخدمة لتعريف Class في Python؟</h4>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, false, 1)">object</div>
+        <div class="quiz-option" onclick="checkAnswer(this, true, 1)">class</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 1)">def</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 1)">struct</div>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <h4>س2: ما الفرق بين Class و Object؟</h4>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, true, 2)">Class هو القالب، Object هو نسخة منه</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 2)">لا فرق بينهما</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 2)">Object هو القالب، Class هو النسخة</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 2)">Class للبيانات، Object للدوال</div>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <h4>س3: ما وظيفة __init__؟</h4>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, false, 3)">حذف الكائن</div>
+        <div class="quiz-option" onclick="checkAnswer(this, true, 3)">تهيئة الكائن عند إنشائه</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 3)">طباعة الكائن</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 3)">نسخ الكائن</div>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <h4>س4: ما معنى self في Python؟</h4>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, false, 4)">اسم الكائن</div>
+        <div class="quiz-option" onclick="checkAnswer(this, true, 4)">إشارة للكائن الحالي</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 4)">نوع البيانات</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 4)">دالة خاصة</div>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <h4>س5: أي من التالي هو Method صحيح؟</h4>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, false, 5)">def bark(): pass</div>
+        <div class="quiz-option" onclick="checkAnswer(this, true, 5)">def bark(self): pass</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 5)">method bark(): pass</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 5)">function bark(self): pass</div>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <h4>س6: كيف تنشئ Object من Class اسمه Dog؟</h4>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, false, 6)">new Dog()</div>
+        <div class="quiz-option" onclick="checkAnswer(this, true, 6)">my_dog = Dog()</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 6)">create Dog()</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 6)">Dog.create()</div>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <h4>س7: ما نوع الـ Attribute في هذا الكود؟</h4>
+      <div class="code-block">class Car:
+    wheels = 4  # هذا الـ Attribute
+    def __init__(self, color):
+        self.color = color</div>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, true, 7)">Class Attribute (مشترك)</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 7)">Instance Attribute (خاص)</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 7)">Method</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 7)">Function</div>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <h4>س8: ما ناتج هذا الكود؟</h4>
+      <div class="code-block">class Dog:
+    def __init__(self, name):
+        self.name = name
+
+d = Dog("Rex")
+print(d.name)</div>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, false, 8)">Dog</div>
+        <div class="quiz-option" onclick="checkAnswer(this, true, 8)">Rex</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 8)">Error</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 8)">None</div>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <h4>س9: هل يمكن لـ Class أن يحتوي على أكثر من Method؟</h4>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, true, 9)">نعم، يمكن إضافة عدد غير محدود</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 9)">لا، Method واحد فقط</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 9)">اثنان كحد أقصى</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 9)">فقط __init__</div>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <h4>س10: ما الفائدة الرئيسية من OOP؟</h4>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="checkAnswer(this, false, 10)">جعل الكود أبطأ</div>
+        <div class="quiz-option" onclick="checkAnswer(this, true, 10)">تنظيم الكود وإعادة استخدام الكود</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 10)">حذف المتغيرات</div>
+        <div class="quiz-option" onclick="checkAnswer(this, false, 10)">الطباعة فقط</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- مهام مميزة -->
+<div class="section">
+  <h2>🎯 5 مهام مميزة - تحدي المبرمجين!</h2>
+  <p>اختر المهمة التي تناسب مستواك وابدأ التحدي!</p>
+
+  <div class="tasks-container">
+    <div class="task task-easy">
+      <h4>
+        🥉 سهل - 20 نقطة
+        <span class="task-points">المهمة 1: Class حيوان أليف</span>
+      </h4>
+      <p>اصنع Class اسمه Pet فيه: name, age, type. أضف Method اسمه speak() يطبع صوت الحيوان.</p>
+      <div class="hint">
+        💡 <strong>تلميح:</strong> استخدم <code>__init__</code> و <code>self</code>
+      </div>
+    </div>
+
+    <div class="task task-easy">
+      <h4>
+         سهل - 25 نقطة
+        <span class="task-points">المهمة 2: Class كتاب</span>
+      </h4>
+      <p>اصنع Class Book فيه: title, author, pages. أضف Method info() يطبع معلومات الكتاب.</p>
+      <div class="hint">
+        💡 <strong>تلميح:</strong> استخدم f-string في Method
+      </div>
+    </div>
+
+    <div class="task task-medium">
+      <h4>
+        🥈 متوسط - 35 نقطة
+        <span class="task-points">المهمة 3: نظام بنك</span>
+      </h4>
+      <p>اصنع Class BankAccount فيه: owner, balance. أضف Methods: deposit(), withdraw(), show_balance().</p>
+      <div class="hint">
+        💡 <strong>تلميح:</strong> تحقق من الرصيد قبل السحب!
+      </div>
+    </div>
+
+    <div class="task task-medium">
+      <h4>
+        🥈 متوسط - 40 نقطة
+        <span class="task-points">المهمة 4: نظام طلاب</span>
+      </h4>
+      <p>اصنع Class Student فيه: name, grades (list). أضف Methods: add_grade(), average(), status().</p>
+      <div class="hint">
+        💡 <strong>تلميح:</strong> استخدم List لتخزين الدرجات
+      </div>
+    </div>
+
+    <div class="task task-creative">
+      <h4>
+        🎨 إبداعي - 60 نقطة
+        <span class="task-points">المهمة 5: لعبة معارك متقدمة</span>
+      </h4>
+      <p>اصنع نظام معارك كامل:
+      <br>• Class Character (name, hp, attack, defense)
+      <br>• Class Weapon (name, damage)
+      <br>• Method equip() لتركيب السلاح
+      <br>• Method battle() للمعارك
+      <br>• نظام XP و Level Up
+      </p>
+      <div class="hint">
+        💡 <strong>تلميح:</strong> اربط Classes ببعض (Composition)
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- الملخص -->
+<div class="summary">
+  <h2>📋 ملخص المحاضرة</h2>
+
+  <div class="summary-grid">
+    <div class="summary-item">
+      <h4>🏭 Class</h4>
+      <p><code>class Name:</code></p>
+    </div>
+    <div class="summary-item">
+      <h4>🎯 Object</h4>
+      <p><code>obj = Class()</code></p>
+    </div>
+    <div class="summary-item">
+      <h4>🔧 __init__</h4>
+      <p>المنشئ (Constructor)</p>
+    </div>
+    <div class="summary-item">
+      <h4>🎯 self</h4>
+      <p>إشارة للكائن الحالي</p>
+    </div>
+    <div class="summary-item">
+      <h4>⚙️ Methods</h4>
+      <p>دوال داخل Class</p>
+    </div>
+    <div class="summary-item">
+      <h4>📦 Attributes</h4>
+      <p>بيانات الكائن</p>
+    </div>
+  </div>
+
+  <h3>🎯 القواعد الذهبية:</h3>
+  <ul style="list-style: none; padding: 0;">
+    <li>✅ اسم Class يبدأ بحرف كبير (PascalCase)</li>
+    <li>✅ <code>__init__</code> تُنفذ تلقائياً عند إنشاء Object</li>
+    <li>✅ أول parameter في Methods يكون <code>self</code></li>
+    <li>✅ استخدم <code>self.attribute</code> للوصول لبيانات الكائن</li>
+    <li>✅ Class Attributes مشتركة بين كل Objects</li>
+    <li>✅ Instance Attributes خاصة بكل Object</li>
+  </ul>
+</div>
+
+<!-- المحاضرة القادمة -->
+<div class="next-lecture">
+  <span class="big-emoji">🐢</span>
+  <h2>المحاضرة القادمة</h2>
+  <h3>الرسم بالسلحفاة (Turtle)</h3>
+  <p>تعلّم كيف ترسم أشكالاً جميلة باستخدام Python!</p>
+  <p>🎨 سنرسم مربعات، دوائر، ونجوم ملونة!</p>
+</div>
+
+<!-- الاقتباس الختامي -->
+<div class="footer-quote">
+  <p> <strong>تذكروا دائمًا:</strong></p>
+  <p>OOP = بناء عوالم برمجية منظمة 🏭</p>
+  <p>كلما مارست أكثر، أصبحت أقوى! 💪</p>
+  <p>أنتم مبرمجون رائعون! 🚀</p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+function outf(text) {
+  var el = document.getElementById(window._outId);
+  if (el) {
+    el.innerHTML += text.replace(/\n/g, '<br>').replace(/ /g, '&nbsp;');
+  }
+}
+
+function builtinRead(x) {
+  if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x.filename] === undefined)
+    throw "File not found: '" + x.filename + "'";
+  return Sk.builtinFiles["files"][x.filename];
+}
+
+function runCode(editorId, outId) {
+  window._outId = outId;
+  var editor = document.getElementById(editorId);
+  var prog = editor.innerText || editor.textContent;
+  var out = document.getElementById(outId);
+  out.innerHTML = '';
+  out.style.color = '#0f0';
+  
+  Sk.pre = outId;
+  Sk.configure({
+    output: outf,
+    read: builtinRead,
+    __future__: Sk.python3
+  });
+  
+  Sk.misceval.asyncToPromise(function() {
+    return Sk.importMainWithBody("<stdin>", false, prog, true);
+  }).then(function() {
+  }).catch(function(err) {
+    out.style.color = '#f87171';
+    out.innerHTML = "❌ Error: " + err.toString();
+  });
+}
+
+function runSimulator() {
+  var name = document.getElementById('sim-name').value;
+  var hp = parseInt(document.getElementById('sim-hp').value);
+  var level = parseInt(document.getElementById('sim-level').value);
+  var action = document.getElementById('sim-action').value;
+  
+  document.getElementById('code-name').textContent = name;
+  document.getElementById('code-hp').textContent = hp;
+  document.getElementById('code-level').textContent = level;
+  document.getElementById('code-method').textContent = action;
+  
+  var output = document.getElementById('sim-output');
+  var result = '';
+  
+  if (action === 'status') {
+    result = `🎮 === ${name} ===\n`;
+    result += `   ❤️  HP: ${hp}\n`;
+    result += `   🎯 Level: ${level}\n`;
+    result += `==============================`;
+  } else if (action === 'attack') {
+    result = `⚔️ ${name} يهاجم العدو!\n`;
+    result += `   💥 ضرر: ${level * 5}\n`;
+    result += `   ❤️  HP المتبقي: ${hp}`;
+  } else if (action === 'heal') {
+    var newHp = Math.min(hp + 30, 100);
+    result = `💊 ${name} يستعيد صحة!\n`;
+    result += `   ❤️  HP: ${hp} → ${newHp}\n`;
+    result += `    استعاد ${newHp - hp} HP`;
+  }
+  
+  output.innerHTML = result.replace(/\n/g, '<br>');
+  output.style.color = '#0f0';
+}
+
+var score = 0;
+var answered = {};
+
+function checkAnswer(element, isCorrect, qNum) {
+  if (answered[qNum]) return;
+  answered[qNum] = true;
+  
+  var parent = element.parentElement;
+  var options = parent.querySelectorAll('.quiz-option');
+  
+  options.forEach(function(opt) {
+    opt.style.pointerEvents = 'none';
+  });
+  
+  if (isCorrect) {
+    element.classList.add('correct');
+    element.innerHTML += ' ✅';
+    score++;
+  } else {
+    element.classList.add('wrong');
+    element.innerHTML += ' ';
+    options.forEach(function(opt) {
+      var onclickAttr = opt.getAttribute('onclick');
+      if (onclickAttr && onclickAttr.includes('true')) {
+        opt.classList.add('correct');
+      }
+    });
+  }
+  
+  document.getElementById('quizScore').textContent = 'النتيجة: ' + score + ' / 10';
+}
+</script>
+
+</body>
+</html>
